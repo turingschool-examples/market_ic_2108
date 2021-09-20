@@ -30,7 +30,7 @@ RSpec.describe 'Vendor' do
 
     vendor.stock(item1, 30)
 
-    expect(vendor.inventory).to be_a Hash
     expect(vendor.inventory).to eq({"Peach" => 30})
+    expect(vendor.check_stock(item1)).to eq(30)
   end
 end
