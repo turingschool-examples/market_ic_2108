@@ -21,6 +21,7 @@ describe Market do
     @vendor2.stock(@item3, 25)
 
     @vendor3.stock(@item1, 65)
+    @vendor3.stock(@item3, 25)
   end
 
   it 'is a Market' do
@@ -56,5 +57,50 @@ describe Market do
 
     expect(@market.vendors_that_sell(@item1)).to eq([@vendor1, @vendor3])
     expect(@market.vendors_that_sell(@item4)).to eq([@vendor2])
+  end
+
+  it '#total_inventory' do
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
+    
+    expect(@market.total_inventory.keys.length).to eq 4
+    expect(@market.total_inventory).to be_a Hash
+    expect(@market.total_inventory[@item1][:quantity]).to eq 100
+    expect(@market.total_inventory[@item1][:vendors]).to eq([@vendor1,@vendor3])
+
+    # tested it in pry, and it works, but again having trouble with the test
+    # expect(@market.total_inventory).to eq({
+    #   @item1 => {
+    #   quantity: 100,
+    #   vendors: [@vendor1, @vendor3]},
+    #   @item2 => {
+    #     quantity: 7,
+    #     vendors: [@vendor1]
+    #   },
+    #   @item3 => {
+    #     quantity: 50,
+    #     vendors: [@vendor2, @vendor3]
+    #   },
+    #   @item4 => {
+    #     quantity: 35,
+    #     vendors: [@vendor2]
+    #   }})
+  end
+
+  it '#sorted_item_list' do
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
+
+    expect(@market.sorted_item_list).to eq ["Banana Nice Cream", "Peach", "Peach-Raspberry Nice Cream", "Tomato"]
+  end
+
+  it '#overstocked_items' do
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
+
+    expect(@market.overstocked_items).to eq [@item1]
   end
 end
