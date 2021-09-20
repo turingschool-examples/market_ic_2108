@@ -21,4 +21,12 @@ class Vendor
   def stock(item, quantity)
     @inventory[item] = (check_stock(item) + (quantity))
   end
+
+  def potential_revenue
+    pv = 0
+    @inventory.each do |k , v|
+      pv += (k.data[:price].delete_prefix("$").to_f * v)
+    end
+    pv.round(2)
+  end
 end
