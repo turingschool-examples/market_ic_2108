@@ -23,4 +23,13 @@ describe Vendor do
     results = @vendor.check_stock(@item1)
     expect(results).to eq(0)
   end
+
+  it 'can stock items' do
+    @vendor.stock(@item1, 30)
+
+    expect(@vendor.inventory).to eq({@item1 => 30})
+
+    results = @vendor.check_stock(@item1)
+    expect(results).to eq(30)
+  end
 end
