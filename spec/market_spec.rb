@@ -1,3 +1,4 @@
+require 'date'
 require './lib/item'
 require './lib/vendor'
 require './lib/market'
@@ -68,53 +69,76 @@ RSpec.describe Market do
     expect(@market.vendors_that_sell(@item4)).to eq([@vendor2])
   end
 
-    it 'can show total inventory' do
-      @vendor1.stock(@item1, 35)
-      @vendor1.stock(@item2, 7)
-      @vendor2.stock(@item4, 50)
-      @vendor2.stock(@item3, 25)
-      @vendor3.stock(@item1, 65)
-      @vendor3.stock(@item3, 10)
+  it 'can show total inventory' do
+    @vendor1.stock(@item1, 35)
+    @vendor1.stock(@item2, 7)
+    @vendor2.stock(@item4, 50)
+    @vendor2.stock(@item3, 25)
+    @vendor3.stock(@item1, 65)
+    @vendor3.stock(@item3, 10)
 
-      @market.add_vendor(@vendor1)
-      @market.add_vendor(@vendor2)
-      @market.add_vendor(@vendor3)
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
 
-      expected = {@item1 => {quantity: 100, vendors: [@vendor1, @vendor3]},
-                  @item2 => {quantity: 7, vendors: [@vendor1]},
-                  @item4 => {quantity: 50, vendors: [@vendor2]},
-                  @item3 => {quantity: 35, vendors: [@vendor2, @vendor3]}
-                  }
-      expect(@market.total_inventory).to eq(expected)
-    end
+    expected = { @item1 => { quantity: 100, vendors: [@vendor1, @vendor3] },
+                 @item2 => { quantity: 7, vendors: [@vendor1] },
+                 @item4 => { quantity: 50, vendors: [@vendor2] },
+                 @item3 => { quantity: 35, vendors: [@vendor2, @vendor3] } }
+    expect(@market.total_inventory).to eq(expected)
+  end
 
-    it 'can figure out overstocked' do
-      @vendor1.stock(@item1, 35)
-      @vendor1.stock(@item2, 7)
-      @vendor2.stock(@item4, 50)
-      @vendor2.stock(@item3, 25)
-      @vendor3.stock(@item1, 65)
-      @vendor3.stock(@item3, 10)
+  it 'can figure out overstocked' do
+    @vendor1.stock(@item1, 35)
+    @vendor1.stock(@item2, 7)
+    @vendor2.stock(@item4, 50)
+    @vendor2.stock(@item3, 25)
+    @vendor3.stock(@item1, 65)
+    @vendor3.stock(@item3, 10)
 
-      @market.add_vendor(@vendor1)
-      @market.add_vendor(@vendor2)
-      @market.add_vendor(@vendor3)
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
 
-      expect(@market.overstocked_items).to eq([@item1])
-    end
+    expect(@market.overstocked_items).to eq([@item1])
+  end
 
-    it 'can return sorted list' do
-      @vendor1.stock(@item1, 35)
-      @vendor1.stock(@item2, 7)
-      @vendor2.stock(@item4, 50)
-      @vendor2.stock(@item3, 25)
-      @vendor3.stock(@item1, 65)
-      @vendor3.stock(@item3, 10)
+  it 'can return sorted list' do
+    @vendor1.stock(@item1, 35)
+    @vendor1.stock(@item2, 7)
+    @vendor2.stock(@item4, 50)
+    @vendor2.stock(@item3, 25)
+    @vendor3.stock(@item1, 65)
+    @vendor3.stock(@item3, 10)
 
-      @market.add_vendor(@vendor1)
-      @market.add_vendor(@vendor2)
-      @market.add_vendor(@vendor3)
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
 
-      expect(@market.sorted_item_list).to eq(["Banana Nice Cream", "Peach", "Peach-Raspberry Nice Cream", "Tomato"])
-    end
+    expect(@market.sorted_item_list).to eq(['Banana Nice Cream', 'Peach',
+                                            'Peach-Raspberry Nice Cream', 'Tomato'])
+  end
+
+  it 'can have a date' do
+    allow(Date).to receive(:today).and_return(Date.new(2020, 02, 24))
+    expect(@market.date).to eq("24/02/2020")
+  end
+
+  # it 'can sell' do
+  #   item5 = Item.new({name: 'Onion', price: '$0.25'})
+  #
+  #   @vendor1.stock(@item1, 35)
+  #   @vendor1.stock(@item2, 7)
+  #   @vendor2.stock(@item4, 50)
+  #   @vendor2.stock(@item3, 25)
+  #   @vendor3.stock(@item1, 65)
+  #
+  #   @market.add_vendor(@vendor1)
+  #   @market.add_vendor(@vendor2)
+  #   @market.add_vendor(@vendor3)
+  #
+  #   # expect(@market.sell(@item1, 200)).to eq(false)
+  #   expect(@market.sell(item5, 1)).to eq(false)
+  #
+  # end
 end
