@@ -44,4 +44,22 @@ describe Market do
 
     expect(@market.vendor_names).to eq(["Rocky Mountain Fresh", "Ba-Nom-a-Nom", "Palisade Peach Shack"])
   end
+
+  it 'can return vendors who sell a particular item' do
+    @vendor1.stock(@item1, 35)
+    @vendor1.stock(@item2, 7)
+    @vendor2.stock(@item4, 50)
+    @vendor2.stock(@item3, 25)
+    @vendor3.stock(@item1, 65)
+
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
+
+    results = @market.vendors_that_sell(@item1)
+    expect(results).to eq([@vendor1, @vendor3])
+
+    results2 = @market.vendors_that_sell(@item4)
+    expect(results2).to eq([@vendor2])
+  end
 end
