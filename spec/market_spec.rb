@@ -62,4 +62,20 @@ describe Market do
     results2 = @market.vendors_that_sell(@item4)
     expect(results2).to eq([@vendor2])
   end
+
+  it 'can return potential revenue' do
+    @vendor1.stock(@item1, 35)
+    @vendor1.stock(@item2, 7)
+    @vendor2.stock(@item4, 50)
+    @vendor2.stock(@item3, 25)
+    @vendor3.stock(@item1, 65)
+
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
+
+    expect(@vendor1.potential_revenue).to eq(29.75)
+    expect(@vendor2.potential_revenue).to eq(345.00)
+    expect(@vendor3.potential_revenue).to eq(48.75)
+  end
 end
