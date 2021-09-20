@@ -34,10 +34,10 @@ describe Vendor do
   describe '#stock' do
     it 'adds the given item and quantities to the inventory' do
       @RMF.stock(@item1, 30)
-      expect(@RMF.inventory).to eq({@item1: 30})
+      expect(@RMF.inventory).to eq({@item1 => 30})
       @RMF.stock(@item2, 55)
 
-      expect(@RMF.inventory).to eq({@item1: 30, @item2: 55})
+      expect(@RMF.inventory).to eq({@item1 => 30, @item2 => 55})
       expect(@RMF.check_stock(@item1)).to eq(30)
     end
   end
