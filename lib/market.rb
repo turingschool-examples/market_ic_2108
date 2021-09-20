@@ -23,4 +23,14 @@ class Market
       vendor.inventory.include?(item)
     end
   end
+
+  def total_inventory
+    total_inventory = {}
+    @vendors.each do |vendor|
+      vendor.inventory.each do |item, quantity|
+        total_inventory[item.name] = {quantity: quantity, vendor: vendor.name}
+      end
+    end
+    total_inventory
+  end
 end
