@@ -49,4 +49,13 @@ describe Vendor do
       expect(@RMF.potential_revenue).to eq(27.5)
     end
   end
+
+  describe '#items' do
+    it 'returns all item names in array format' do
+      @RMF.stock(@item1, 30)
+      @RMF.stock(@item2, 55)
+
+      expect(@RMF.items).to eq([@item1.name, @item2.name])
+    end
+  end
 end

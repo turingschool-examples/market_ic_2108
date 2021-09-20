@@ -77,6 +77,16 @@ describe Market do
     end
   end
 
+  describe '#all_items' do
+    it 'returns all items' do
+      @South_Pearl.add_vendor(@vendor1)
+      @South_Pearl.add_vendor(@vendor2)
+      @South_Pearl.add_vendor(@vendor3)
+
+      expect(@South_Pearl.all_items).to eq([@item1, @item2, @item4, @item3])
+    end
+  end
+
   describe '#total_inventory' do
     it 'returns quantities of all items sold at the market and what vendors sell them' do
       @South_Pearl.add_vendor(@vendor1)
@@ -86,14 +96,14 @@ describe Market do
       expect(@South_Pearl.total_inventory).to eq({
         @item1 => {quantity: 100, vendors: [@vendor1, @vendor3]},
         @item2 => {quantity: 7, vendors: [@vendor1]},
-        @item3 => {quantity: 35, vendors: [@vendor3]},
-        @item4 => {quantity: 50, vendors: [@vendor4]}
+        @item3 => {quantity: 35, vendors: [@vendor2]},
+        @item4 => {quantity: 50, vendors: [@vendor2]}
       })
     end
   end
 
   describe '#overstocked_items' do
-    it 'returns all items that have more than 1 vendor AND a greater quantity than 50' do
+    xit 'returns all items that have more than 1 vendor AND a greater quantity than 50' do
       @vendor3.stock(@item4, 750)
       @South_Pearl.add_vendor(@vendor1)
       @South_Pearl.add_vendor(@vendor3)
