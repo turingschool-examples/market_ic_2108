@@ -41,4 +41,12 @@ describe Vendor do
       expect(@RMF.check_stock(@item1)).to eq(30)
     end
   end
+
+  describe '#potential_revenue' do
+    it 'returns potential revenue for a given item' do
+      @RMF.stock(@item2, 55)
+
+      expect(@RMF.potential_revenue).to eq(27.5)
+    end
+  end
 end
