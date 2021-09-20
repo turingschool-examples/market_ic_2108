@@ -26,4 +26,10 @@ class Vendor
     end
     sum
   end
+
+  def items
+    inventory.keys.map do |item|
+      item.name
+    end
+  end
 end
