@@ -18,4 +18,12 @@ class Vendor
   def stock(item, quantity)
     inventory[item] = quantity
   end
+
+  def potential_revenue
+    sum = 0
+    inventory.keys.zip(inventory.values) do |key, value|
+      sum += key.price * value
+    end
+    sum
+  end
 end
