@@ -1,5 +1,6 @@
 require './lib/item'
 require './lib/vendor'
+require './lib/market'
 
 RSpec.describe Item do
   it 'exists' do
