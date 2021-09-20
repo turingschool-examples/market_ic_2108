@@ -31,5 +31,16 @@ describe Vendor do
 
     results = @vendor.check_stock(@item1)
     expect(results).to eq(30)
+
+    @vendor.stock(@item2, 12)
+    expect(@vendor.inventory).to eq({@item1 => 30, @item2 => 12})
+  end
+
+  it 'can add stock to existing values' do
+    @vendor.stock(@item1, 30)
+    @vendor.stock(@item1, 25)
+    results = @vendor.check_stock(@item1)
+
+    expect(results).to eq(55)
   end
 end
