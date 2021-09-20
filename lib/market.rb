@@ -1,10 +1,14 @@
+require 'Date'
+
 class Market
   attr_reader :name,
-              :vendors
+              :vendors,
+              :date
 
   def initialize(name)
     @name = name
     @vendors = []
+    @date = Date.today.to_s
   end
 
   def add_vendor(vendor)
@@ -51,6 +55,23 @@ class Market
   def overstocked_items
     item_list.select do | item |
       vendors_that_sell(item).length > 1 && total_num_item(item) > 50
+    end
+  end
+
+  def sell(item, quantity)
+    if total_num_item(item) < quantity
+      false
+    else
+      vendors_that_sell(item).each do |vendor|
+        if vendor.inventory[item] >= quantity
+          vendor.inventory[item] -= quantity
+          break
+        else 
+          quantity -= vendor.inventory[item]
+          vendor.inventory[item] = 0
+        end
+      end
+      true
     end
   end
 end

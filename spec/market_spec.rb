@@ -103,4 +103,28 @@ describe Market do
 
     expect(@market.overstocked_items).to eq [@item1]
   end
+
+  it "#date" do
+    expect(@market.date).to be_a String
+    expect(@market.date.length).to eq 10
+
+    #not sure what else to test here
+  end
+
+  it "#sell" do
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
+
+    expect(@market.sell(@item1, 200)).to eq false
+    expect(@market.sell(@item5, 1)).to eq false
+    expect(@market.sell(@item4, 5)).to eq true
+    
+    expect(@vendor2.check_stock(@item4)).to eq 45
+
+    expect(@market.sell(@item1, 40)).to eq true
+
+    expect(@vendor1.check_stock(@item1)).to eq 0
+    expect(@vendor3.check_stock(@item1)).to eq 60
+  end
 end
