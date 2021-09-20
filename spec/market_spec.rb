@@ -111,5 +111,10 @@ RSpec.describe Market do
     it '#overstocked_items' do
       expect(@market.overstocked_items).to eq [@item1]
     end
+
+    it '#items_in_market' do
+      expect(@market.items_in_market).to be_a Hash
+      expect(@market.items_in_market.keys.length).to eq 4
+    end
   end
 end
