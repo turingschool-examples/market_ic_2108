@@ -7,4 +7,10 @@ RSpec.describe 'Vendor' do
 
     expect(vendor).to be_an_instance_of(Vendor)
   end
+
+  it 'had inventory' do
+    vendor = Vendor.new("Rocky Mountain Fresh")
+
+    expect(vendor.inventory).to eq({})
+  end
 end
